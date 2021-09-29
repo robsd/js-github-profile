@@ -43,6 +43,9 @@ function getProfile(profile) {
 		formatProfileLayout += '<p><i class="fas fa-map-marker-alt"></i> ' + profile['location'] + '</p>';
 	}
 	formatProfileLayout += '<p><i class="fab fa-github"></i> <a href="https://github.com/' + profile['login'] + '"> @' + profile['login'] + '</a></p>';
+	if (profile['email'] != null) {
+		formatProfileLayout += '<p><i class="fas fa-envelope"></i> <a href="mailto:' + profile['email'] + '">' + profile['email'] + '</a></p>';
+	}
 	if (profile['twitter_username'] != null) {
 		formatProfileLayout += '<p><i class="fab fa-twitter"></i> <a href="https://twitter.com/' + profile['twitter_username'] + '">@' + profile['twitter_username'] + '</a></p>';
 	}
