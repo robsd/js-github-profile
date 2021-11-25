@@ -1,8 +1,21 @@
 username = 'robsd'; // GitHub Profile Username
+theme = 'dark' // Either 'light' or 'dark'
 
 favicon = document.getElementById('favicon');
 profileLayout = document.getElementById('profile');
 repoLayout = document.getElementById('repos');
+
+themePrimary = 'bg-white';
+themeSecondary = 'bg-light';
+themeText = 'text-dark';
+
+if (theme == 'dark') {
+	themePrimary = 'bg-dark';
+	themeSecondary = 'bg-secondary';
+	themeText = 'text-light';
+}
+
+document.body.className = themePrimary + ' ' + themeText;
 
 apiCall('https://api.github.com/users/' + username, getProfile);
 apiCall('https://api.github.com/users/' + username + '/repos', getRepos);
@@ -32,6 +45,9 @@ function getProfile(profile) {
 		document.title = '@' + profile['login'];
 	}
 	formatProfileLayout += '<p class="lead">@' + profile['login'] + '</p>';
+	if (profile['hireable'] != null) {
+		formatProfileLayout += '<p><span class="badge bg-success">AVAILABLE FOR HIRE</p>';
+	}
 	if (profile['bio'] != null) {
 		formatProfileLayout += '<p>' + profile['bio'] + '</p>';
 	}
@@ -43,9 +59,6 @@ function getProfile(profile) {
 		formatProfileLayout += '<p><i class="fas fa-map-marker-alt"></i> ' + profile['location'] + '</p>';
 	}
 	formatProfileLayout += '<p><i class="fab fa-github"></i> <a href="https://github.com/' + profile['login'] + '"> @' + profile['login'] + '</a></p>';
-	if (profile['email'] != null) {
-		formatProfileLayout += '<p><i class="fas fa-envelope"></i> <a href="mailto:' + profile['email'] + '">' + profile['email'] + '</a></p>';
-	}
 	if (profile['twitter_username'] != null) {
 		formatProfileLayout += '<p><i class="fab fa-twitter"></i> <a href="https://twitter.com/' + profile['twitter_username'] + '">@' + profile['twitter_username'] + '</a></p>';
 	}
@@ -64,14 +77,15 @@ function getRepos(repos) {
 		formatRepoLayout = '<div class="row">';
 		for (i = 0; i < repos.length; i++) {
 			formatRepoLayout += '<div class="col-md-4 mb-4">';
-			formatRepoLayout += '<div class="card h-100">';
-			formatRepoLayout += '<div class="card-header lead"><i class="fas fa-folder-open me-1"></i> <a href="' + repos[i]['owner']['html_url'] + '">' + repos[i]['owner']['login'] + '</a> / <b><a href="' + repos[i]['html_url'] + '">' + repos[i]['name'] + '</a></b></div>';
-			formatRepoLayout += '<div class="card-body">';
+			formatRepoLayout += '<div class="card ' + themeSecondary + ' h-100">';
+			formatRepoLayout += '<h5 class="card-header">'+ repos[i]['name'] + '</h5>';
+			formatRepoLayout += '<div class="card-body ' + themePrimary + '">';
 			if (repos[i]['description'] != null) {
 				formatRepoLayout += '<p>' + repos[i]['description'] + '</p>';
 			}
 			formatRepoLayout += '</div>';
 			formatRepoLayout += '<div class="card-footer"><i class="fas fa-star"></i> ' + repos[i]['stargazers_count'] + ' <i class="fas fa-code-branch ms-3"></i> ' + repos[i]['forks'] + '</div>';
+			formatRepoLayout += '<a class="stretched-link" href="' + repos[i]['html_url'] + '"></a>';
 			formatRepoLayout += '</div></div>';
 		}
 		formatRepoLayout += '</div>';
