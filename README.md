@@ -11,7 +11,7 @@ My personal GitHub website auto-generated with JavaScript using the GitHub API.
 
 ## Demo
 
-https://robsd.github.io
+https://robsd.github.io/js-github-profile
 
 ## Support my work
 
